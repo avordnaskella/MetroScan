@@ -1,0 +1,49 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Страница-1" id="cltgypQ0WzPx4O3KHzes">
+    <mxGraphModel dx="658" dy="833" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-ir1-5RPVAXZFhw024XG-1" value="Внешние сервисы" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="80" y="110" width="200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-2" value="RFID-антенна" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="160" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-3" value="Серверная часть" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="220" y="310" width="250" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-4" value="MQTT-брокер" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="360" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-5" value="Django-приложение" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="420" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-6" value="База данных" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="480" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-7" value="Клиентская часть" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="140" y="640" width="200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-8" value="АРМ диспетчера" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="690" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-10" value="" style="endArrow=none;html=1;rounded=0;exitX=0.42;exitY=-0.01;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="-ir1-5RPVAXZFhw024XG-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="450" as="sourcePoint" />
+            <mxPoint x="370" y="307" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="370" y="173" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-ir1-5RPVAXZFhw024XG-11" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0.868;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="-ir1-5RPVAXZFhw024XG-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="253" y="640" as="sourcePoint" />
+            <mxPoint x="400" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
