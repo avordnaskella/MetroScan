@@ -1,0 +1,67 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Страница-1" id="icO0xL59Y1wmfnmoud2E">
+    <mxGraphModel dx="1665" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-1" value="RIFD-антенна" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="130" y="320" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-2" value="MQTT-брокер" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="359" y="280" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-3" value="Сервер(БД)" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="520" y="380" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-4" value="АРМ-дистпетчера" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="400" y="520" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-5" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="T-ZKu1e9tEbjIb1J1Mts-1" target="T-ZKu1e9tEbjIb1J1Mts-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="460" as="sourcePoint" />
+            <mxPoint x="440" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-6" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T-ZKu1e9tEbjIb1J1Mts-2" target="T-ZKu1e9tEbjIb1J1Mts-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="460" as="sourcePoint" />
+            <mxPoint x="440" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-7" value="" style="endArrow=none;html=1;rounded=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=0.364;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="T-ZKu1e9tEbjIb1J1Mts-4" target="T-ZKu1e9tEbjIb1J1Mts-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="460" as="sourcePoint" />
+            <mxPoint x="440" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-8" value="1. Считать метку" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="220" y="270" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-9" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="T-ZKu1e9tEbjIb1J1Mts-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="250" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-10" value="2. Передать номер метки" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="520" y="300" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-11" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="300" as="sourcePoint" />
+            <mxPoint x="550" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-12" value="3. Записать данные" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="520" y="460" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T-ZKu1e9tEbjIb1J1Mts-13" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="440" as="sourcePoint" />
+            <mxPoint x="480" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
