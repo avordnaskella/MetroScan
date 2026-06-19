@@ -1,0 +1,54 @@
+# Виртуальное окружение
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# База данных
+db.sqlite3
+*.sqlite3
+
+# Кэши и временные файлы
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.log
+*.pid
+
+
+# Файлы IDE
+.vscode/
+.idea/
+*.iml
+.vs/
+*.swp
+*.swo
+
+# Файлы ОС
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Django
+*.log
+local_settings.py
+*.pot
+
+# Медиа и статика (если есть)
+media/
+staticfiles/
+static/
+
+# Файлы окружения
+.env
+.env.local
+*.env
+
+
+# Временные файлы
+tmp/
+temp/
+*.tmp
+

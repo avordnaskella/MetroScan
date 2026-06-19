@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>МетроСкан — АРМ диспетчера</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 20px;
+        }
+        h1 {
+            color: #003366;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th {
+            background: #003366;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .ok {
+            background: #e6ffe6;
+        }
+        .error {
+            background: #ffe6e6;
+        }
+        .train-number {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #003366;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+        .status-ok {
+            background: #28a745;
+            color: white;
+        }
+        .status-error {
+            background: #dc3545;
+            color: white;
+        }
+        .refresh-info {
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚇 МетроСкан — АРМ диспетчера</h1>
+    <p>Последние прибытия на станцию <strong>Стрелка</strong></p>
+    
+    <div id="events-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Номер поезда</th>
+                    <th>Статус</th>
+                    <th>Код метки</th>
+                </tr>
+            </thead>
+            <tbody id="events-body">
+                {% for event in events %}
+                <tr class="{% if event.status == 'OK' %}ok{% else %}error{% endif %}">
+                    <td>{{ event.timestamp|date:"H:i:s" }}</td>
+                    <td>
+                        {% if event.train %}
+                            <span class="train-number">{{ event.train.train_number }}</span>
+                        {% else %}
+                            <span class="error-message">Неизвестный поезд</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="status-badge {% if event.status == 'OK' %}status-ok{% else %}status-error{% endif %}">
+                            {{ event.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ event.tag_id_received }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="refresh-info">Обновляется каждые 5 секунд</div>
+
+    <script>
+        function updateEvents() {
+            fetch('/')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newBody = doc.querySelector('#events-body');
+                    if (newBody) {
+                        document.querySelector('#events-body').innerHTML = newBody.innerHTML;
+                    }
+                })
+                .catch(error => console.error('Ошибка обновления:', error));
+        }
+
+        // Обновляем каждые 5 секунд
+        setInterval(updateEvents, 5000);
+    </script>
+</body>
+</html>
