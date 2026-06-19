@@ -64,42 +64,50 @@
     </style>
 </head>
 <body>
-    <h1>🚇 МетроСкан — АРМ диспетчера</h1>
+    <h1>АРМ диспетчера</h1>
     <p>Последние прибытия на станцию <strong>Стрелка</strong></p>
     
     <div id="events-table">
         <table>
-            <thead>
-                <tr>
-                    <th>Время</th>
-                    <th>Номер поезда</th>
-                    <th>Статус</th>
-                    <th>Код метки</th>
-                </tr>
-            </thead>
-            <tbody id="events-body">
-                {% for event in events %}
-                <tr class="{% if event.status == 'OK' %}ok{% else %}error{% endif %}">
-                    <td>{{ event.timestamp|date:"H:i:s" }}</td>
-                    <td>
-                        {% if event.train %}
-                            <span class="train-number">{{ event.train.train_number }}</span>
-                        {% else %}
-                            <span class="error-message">Неизвестный поезд</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <span class="status-badge {% if event.status == 'OK' %}status-ok{% else %}status-error{% endif %}">
-                            {{ event.get_status_display }}
-                        </span>
-                    </td>
-                    <td>{{ event.tag_id_received }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
+             <thead>
+        <tr>
+            <th>Время</th>
+            <th>Номер поезда</th>
+            <th>Код метки</th>
+            <th>Станция</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody id="events-body">
+        {% for event in events %}
+        <tr class="{% if event.status == 'OK' %}ok{% else %}error{% endif %}">
+            <td>{{ event.occurred_at|date:"H:i:s" }}</td>
+            <td>
+                {% if event.train %}
+                    <span class="train-number">{{ event.train.route_number }}</span>
+                {% else %}
+                    <span class="error-message">Неизвестный поезд</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if event.rfid_tag %}
+                    <span>{{ event.rfid_tag.tag_uid }}</span>
+                {% else %}
+                    <span class="error-message">неизвестно</span>
+                {% endif %}
+            </td>
+            <td>{{ event.station.name }}</td>
+            <td>
+                <span class="status-badge {% if event.status == 'OK' %}status-ok{% else %}status-error{% endif %}">
+                    {{ event.get_status_display }}
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
         </table>
     </div>
-    <div class="refresh-info">Обновляется каждые 5 секунд</div>
+    <div class="refresh-info">Обновляется каждые 10 секунд</div>
 
     <script>
         function updateEvents() {
@@ -117,7 +125,7 @@
         }
 
         // Обновляем каждые 5 секунд
-        setInterval(updateEvents, 5000);
+        setInterval(updateEvents, 10000);
     </script>
 </body>
 </html>
