@@ -3,7 +3,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import RFIDTag, PassEvent, Station
 from django.utils import timezone  
-from datetime import timedelta     
+from datetime import timedelta
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import RFIDTag, PassEvent, Station, Train
+import csv
+from django.http import HttpResponse 
 
 @api_view(['POST'])
 def register_pass(request):
@@ -65,6 +70,19 @@ def register_pass(request):
 
 
 def dashboard(request):
-    """Главная страница диспетчера"""
-    events = PassEvent.objects.select_related('station', 'train', 'rfid_tag').order_by('-occurred_at')[:20]
-    return render(request, 'dashboard.html', {'events': events})
+    """Главная страница диспетчера с фильтром по станции"""
+    station_filter = request.GET.get('station', 'all')
+    events = PassEvent.objects.select_related('station', 'train', 'rfid_tag')
+    
+    if station_filter != 'all':
+        events = events.filter(station__station_id=station_filter)
+    
+    events = events.order_by('-occurred_at')[:20]
+    stations = Station.objects.all()
+    
+    context = {
+        'events': events,
+        'stations': stations,
+        'selected_station': station_filter,
+    }
+    return render(request, 'dashboard.html', context)

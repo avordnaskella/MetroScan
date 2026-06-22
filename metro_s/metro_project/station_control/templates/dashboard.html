@@ -65,7 +65,20 @@
 </head>
 <body>
     <h1>АРМ диспетчера</h1>
-    <p>Последние прибытия на станцию <strong>Стрелка</strong></p>
+    
+<div style="margin: 15px 0; background: white; padding: 10px; border-radius: 8px; display: inline-block;">
+    <form method="get" style="display: flex; align-items: center; gap: 10px;">
+        <label for="station"><strong>Фильтр по станции:</strong></label>
+        <select name="station" id="station" onchange="this.form.submit()" style="padding: 5px 10px; border-radius: 4px;">
+            <option value="all" {% if selected_station == 'all' %}selected{% endif %}>Все станции</option>
+            {% for station in stations %}
+                <option value="{{ station.station_id }}" {% if selected_station == station.station_id|stringformat:"s" %}selected{% endif %}>
+                    {{ station.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
     
     <div id="events-table">
         <table>
