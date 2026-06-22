@@ -8,7 +8,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import RFIDTag, PassEvent, Station, Train
 import csv
-from django.http import HttpResponse 
+from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
 
 @api_view(['POST'])
 def register_pass(request):
@@ -68,32 +72,31 @@ def register_pass(request):
             'timestamp': event.occurred_at.isoformat()
         }, status=404)
 
-
+@login_required(login_url='/login/')
 def dashboard(request):
-    """Главная страница диспетчера с фильтрацией"""
     events = PassEvent.objects.select_related('station', 'train', 'rfid_tag')
     
     # Фильтр по станции
     station_filter = request.GET.get('station', 'all')
     if station_filter != 'all':
-        events = events.filter(stationstation_id=station_filter)
+        events = events.filter(station_id=station_filter)  # ← исправлено
     
     # Фильтр по номеру поезда
     train_number = request.GET.get('train_number', '')
     if train_number:
-        events = events.filter(trainroute_number=train_number)
+        events = events.filter(train__route_number=train_number)
     
     # Фильтр по коду метки
     tag_uid = request.GET.get('tag_uid', '')
     if tag_uid:
-        events = events.filter(rfid_tagtag_uidicontains=tag_uid)
+        events = events.filter(rfid_tag__tag_uid__icontains=tag_uid)
     
     # Фильтр по статусу
     status_filter = request.GET.get('status', 'all')
     if status_filter != 'all':
         events = events.filter(status=status_filter)
     
-    events = events.order_by('-occurred_at')[:50]  # показываем до 50 записей
+    events = events.order_by('-occurred_at')[:50]
     stations = Station.objects.all()
     
     context = {
@@ -105,7 +108,6 @@ def dashboard(request):
         'selected_status': status_filter,
     }
     return render(request, 'dashboard.html', context)
-
 
 def export_csv(request):
     """Экспорт всех событий в CSV с учётом текущих фильтров"""
@@ -146,3 +148,19 @@ def export_csv(request):
         ])
     
     return response
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            return render(request, 'login.html', {'error': 'Неверный логин или пароль'})
+    return render(request, 'login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login_view')
