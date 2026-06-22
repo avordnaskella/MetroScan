@@ -70,19 +70,79 @@ def register_pass(request):
 
 
 def dashboard(request):
-    """Главная страница диспетчера с фильтром по станции"""
-    station_filter = request.GET.get('station', 'all')
+    """Главная страница диспетчера с фильтрацией"""
     events = PassEvent.objects.select_related('station', 'train', 'rfid_tag')
     
+    # Фильтр по станции
+    station_filter = request.GET.get('station', 'all')
     if station_filter != 'all':
-        events = events.filter(station__station_id=station_filter)
+        events = events.filter(stationstation_id=station_filter)
     
-    events = events.order_by('-occurred_at')[:20]
+    # Фильтр по номеру поезда
+    train_number = request.GET.get('train_number', '')
+    if train_number:
+        events = events.filter(trainroute_number=train_number)
+    
+    # Фильтр по коду метки
+    tag_uid = request.GET.get('tag_uid', '')
+    if tag_uid:
+        events = events.filter(rfid_tagtag_uidicontains=tag_uid)
+    
+    # Фильтр по статусу
+    status_filter = request.GET.get('status', 'all')
+    if status_filter != 'all':
+        events = events.filter(status=status_filter)
+    
+    events = events.order_by('-occurred_at')[:50]  # показываем до 50 записей
     stations = Station.objects.all()
     
     context = {
         'events': events,
         'stations': stations,
         'selected_station': station_filter,
+        'train_number': train_number,
+        'tag_uid': tag_uid,
+        'selected_status': status_filter,
     }
     return render(request, 'dashboard.html', context)
+
+
+def export_csv(request):
+    """Экспорт всех событий в CSV с учётом текущих фильтров"""
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="metro_scan_report.csv"'
+    
+    writer = csv.writer(response)
+    writer.writerow(['Время', 'Номер поезда', 'Код метки', 'Станция', 'Статус'])
+    
+    events = PassEvent.objects.select_related('station', 'train', 'rfid_tag')
+    
+    # Применяем те же фильтры, что и в dashboard
+    station_filter = request.GET.get('station', 'all')
+    if station_filter != 'all':
+        events = events.filter(stationstation_id=station_filter)
+    
+    train_number = request.GET.get('train_number', '')
+    if train_number:
+        events = events.filter(trainroute_number=train_number)
+    
+    tag_uid = request.GET.get('tag_uid', '')
+    if tag_uid:
+        events = events.filter(rfid_tagtag_uidicontains=tag_uid)
+    
+    status_filter = request.GET.get('status', 'all')
+    if status_filter != 'all':
+        events = events.filter(status=status_filter)
+    
+    events = events.order_by('-occurred_at')
+    
+    for event in events:
+        writer.writerow([
+            event.occurred_at.strftime('%Y-%m-%d %H:%M:%S'),
+            event.train.route_number if event.train else 'Неизвестный поезд',
+            event.rfid_tag.tag_uid if event.rfid_tag else 'Неизвестно',
+            event.station.name,
+            event.get_status_display(),
+        ])
+    
+    return response

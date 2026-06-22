@@ -66,18 +66,64 @@
 <body>
     <h1>АРМ диспетчера</h1>
     
-<div style="margin: 15px 0; background: white; padding: 10px; border-radius: 8px; display: inline-block;">
-    <form method="get" style="display: flex; align-items: center; gap: 10px;">
-        <label for="station"><strong>Фильтр по станции:</strong></label>
-        <select name="station" id="station" onchange="this.form.submit()" style="padding: 5px 10px; border-radius: 4px;">
-            <option value="all" {% if selected_station == 'all' %}selected{% endif %}>Все станции</option>
-            {% for station in stations %}
-                <option value="{{ station.station_id }}" {% if selected_station == station.station_id|stringformat:"s" %}selected{% endif %}>
-                    {{ station.name }}
-                </option>
-            {% endfor %}
-        </select>
+
+<div style="margin: 15px 0; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <form method="get" style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;">
+        <!-- Фильтр по станции -->
+        <div>
+            <label><strong>Станция</strong></label><br>
+            <select name="station" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; min-width: 150px;">
+                <option value="all" {% if selected_station == 'all' %}selected{% endif %}>Все станции</option>
+                {% for station in stations %}
+                    <option value="{{ station.station_id }}" {% if selected_station == station.station_id|stringformat:"s" %}selected{% endif %}>
+                        {{ station.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Фильтр по номеру поезда -->
+        <div>
+            <label><strong>Номер поезда</strong></label><br>
+            <input type="text" name="train_number" value="{{ train_number }}" placeholder="Например: 27026" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; width: 140px;">
+        </div>
+
+        <!-- Фильтр по коду метки -->
+        <div>
+            <label><strong>Код метки</strong></label><br>
+            <input type="text" name="tag_uid" value="{{ tag_uid }}" placeholder="Например: RFID_001" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; width: 140px;">
+        </div>
+
+        <!-- Фильтр по статусу -->
+        <div>
+            <label><strong>Статус</strong></label><br>
+            <select name="status" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; min-width: 150px;">
+                <option value="all" {% if selected_status == 'all' %}selected{% endif %}>Все статусы</option>
+                <option value="OK" {% if selected_status == 'OK' %}selected{% endif %}>Штатное прибытие</option>
+                <option value="ERROR" {% if selected_status == 'ERROR' %}selected{% endif %}>Ошибка идентификации</option>
+                <option value="DUPLICATE" {% if selected_status == 'DUPLICATE' %}selected{% endif %}>Дубликат</option>
+            </select>
+        </div>
+
+        <!-- Кнопки -->
+        <div style="display: flex; gap: 8px;">
+            <button type="submit" style="background: #003366; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">
+                Применить
+            </button>
+            <a href="/" style="background: #a70f0f; color: white; border: none; padding: 8px 20px; border-radius: 4px; text-decoration: none; display: inline-block;">
+                Сбросить
+            </a>
+        </div>
     </form>
+</div>
+
+<!-- КНОПКА ЭКСПОРТА CSV -->
+<div style="margin: 10px 0 15px 0;">
+    <a href="/export/csv/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" download>
+        <button style="background: #28a745; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-size: 14px;">
+            Скачать отчёт CSV
+        </button>
+    </a>
 </div>
     
     <div id="events-table">
