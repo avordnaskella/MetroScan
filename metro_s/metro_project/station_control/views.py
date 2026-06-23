@@ -110,7 +110,6 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 def export_csv(request):
-    """Экспорт всех событий в CSV с учётом текущих фильтров"""
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="metro_scan_report.csv"'
     
@@ -122,15 +121,15 @@ def export_csv(request):
     # Применяем те же фильтры, что и в dashboard
     station_filter = request.GET.get('station', 'all')
     if station_filter != 'all':
-        events = events.filter(stationstation_id=station_filter)
+        events = events.filter(station_id=station_filter)
     
     train_number = request.GET.get('train_number', '')
     if train_number:
-        events = events.filter(trainroute_number=train_number)
+        events = events.filter(train__route_number=train_number)
     
     tag_uid = request.GET.get('tag_uid', '')
     if tag_uid:
-        events = events.filter(rfid_tagtag_uidicontains=tag_uid)
+        events = events.filter(rfid_tag__tag_uid__icontains=tag_uid)
     
     status_filter = request.GET.get('status', 'all')
     if status_filter != 'all':

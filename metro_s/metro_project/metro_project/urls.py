@@ -21,3 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('station_control.urls')),
 ]
+
+# Статические файлы
+#STATIC_URL = '/static/'
+#STATICFILES_DIRS = [
+    #BASE_DIR / 'static',
+#]

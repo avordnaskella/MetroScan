@@ -1,194 +1,599 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>МетроСкан — АРМ диспетчера</title>
     <meta charset="UTF-8">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
-            margin: 20px;
-        }
-        h1 {
-            color: #003366;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        th {
-            background: #003366;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-        .ok {
-            background: #e6ffe6;
-        }
-        .error {
-            background: #ffe6e6;
-        }
-        .train-number {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #003366;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.85em;
-        }
-        .status-ok {
-            background: #28a745;
-            color: white;
-        }
-        .status-error {
-            background: #dc3545;
-            color: white;
-        }
-        .refresh-info {
-            margin-top: 10px;
-            color: #666;
-            font-size: 0.9em;
-        }
-        .error-message {
-            color: red;
-        }
-    </style>
-</head>
-<body>
-    <h1>АРМ диспетчера</h1>
-   
-    <div style="float: right; margin-top: -50px;">
-    <a href="/logout/" style="color: #dc3545;">Выйти</a>
-</div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МетроСкан — АРМ диспетчера</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- ШАПКА <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+     <style>
+    /* ===== ГЛОБАЛЬНЫЕ ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-<div style="margin: 15px 0; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-    <form method="get" style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;">
-        <!-- Фильтр по станции -->
-        <div>
-            <label><strong>Станция</strong></label><br>
-            <select name="station" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; min-width: 150px;">
-                <option value="all" {% if selected_station == 'all' %}selected{% endif %}>Все станции</option>
-                {% for station in stations %}
-                    <option value="{{ station.station_id }}" {% if selected_station == station.station_id|stringformat:"s" %}selected{% endif %}>
-                        {{ station.name }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: #0b0e14;
+        color: #e8edf5;
+        min-height: 100vh;
+        padding: 24px;
+    }
 
-        <!-- Фильтр по номеру поезда -->
-        <div>
-            <label><strong>Номер поезда</strong></label><br>
-            <input type="text" name="train_number" value="{{ train_number }}" placeholder="Например: 27026" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; width: 140px;">
-        </div>
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-        <!-- Фильтр по коду метки -->
-        <div>
-            <label><strong>Код метки</strong></label><br>
-            <input type="text" name="tag_uid" value="{{ tag_uid }}" placeholder="Например: RFID_001" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; width: 140px;">
-        </div>
+    /* ===== ШАПКА ===== */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
 
-        <!-- Фильтр по статусу -->
-        <div>
-            <label><strong>Статус</strong></label><br>
-            <select name="status" style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; min-width: 150px;">
-                <option value="all" {% if selected_status == 'all' %}selected{% endif %}>Все статусы</option>
-                <option value="OK" {% if selected_status == 'OK' %}selected{% endif %}>Штатное прибытие</option>
-                <option value="ERROR" {% if selected_status == 'ERROR' %}selected{% endif %}>Ошибка идентификации</option>
-                <option value="DUPLICATE" {% if selected_status == 'DUPLICATE' %}selected{% endif %}>Дубликат</option>
-            </select>
-        </div>
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
 
-        <!-- Кнопки -->
-        <div style="display: flex; gap: 8px;">
-            <button type="submit" style="background: #003366; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">
-                Применить
-            </button>
-            <a href="/" style="background: #a70f0f; color: white; border: none; padding: 8px 20px; border-radius: 4px; text-decoration: none; display: inline-block;">
-                Сбросить
-            </a>
-        </div>
-    </form>
-</div>
+    .logo-icon {
+        font-size: 32px;
+        background: linear-gradient(135deg, #00d4ff, #0070e0);
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(0, 180, 255, 0.3);
+        flex-shrink: 0;
+    }
 
-<!-- КНОПКА ЭКСПОРТА CSV -->
-<div style="margin: 10px 0 15px 0;">
-    <a href="/export/csv/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" download>
-        <button style="background: #28a745; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-size: 14px;">
-            Скачать отчёт CSV
-        </button>
-    </a>
-</div>
+    .header h1 {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, #ffffff 60%, #6ab7ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .header-sub {
+        font-size: 14px;
+        color: #8899b4;
+        font-weight: 400;
+        margin-top: 2px;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .user-badge {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 14px;
+        color: #b0c8e8;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .user-badge .dot {
+        width: 8px;
+        height: 8px;
+        background: #00d4ff;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .btn-logout {
+        background: rgba(255, 70, 70, 0.12);
+        color: #ff6b6b;
+        border: 1px solid rgba(255, 70, 70, 0.15);
+        padding: 8px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+        background: rgba(255, 70, 70, 0.2);
+        border-color: rgba(255, 70, 70, 0.3);
+    }
+
+    /* ===== ПАНЕЛЬ ФИЛЬТРОВ ===== */
+    .filter-panel {
+        background: #131a24;
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px 20px;
+        align-items: flex-end;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1 1 150px;
+        min-width: 130px;
+    }
+
+    .filter-group label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #6a7f9e;
+        font-weight: 600;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        background: #0b0e14;
+        border: 1px solid #1e2a36;
+        color: #e8edf5;
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-family: 'Inter', sans-serif;
+        width: 100%;
+        transition: border 0.2s;
+        outline: none;
+    }
+
+    .filter-group input:focus,
+    .filter-group select:focus {
+        border-color: #00aaff;
+        box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.15);
+    }
+
+    .filter-group input::placeholder {
+        color: #3a4a5e;
+    }
+
+    .filter-actions {display: flex;
+        gap: 10px;
+        align-items: center;
+        padding-bottom: 2px;
+        flex-wrap: wrap;
+        flex: 1 1 auto;
+    }
+
+    /* ===== КНОПКИ ===== */
+    .btn-primary {
+        background: linear-gradient(135deg, #0070e0, #00aaff);
+        color: white;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.25s;
+        font-family: 'Inter', sans-serif;
+        box-shadow: 0 4px 16px rgba(0, 120, 255, 0.25);
+        white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px rgba(0, 120, 255, 0.35);
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: #b0c8e8;
+        border: 1px solid #1e2a36;
+        padding: 8px 20px;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-export {
+        background: rgba(0, 200, 100, 0.12);
+        color: #00d489;
+        border: 1px solid rgba(0, 200, 100, 0.15);
+        padding: 8px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.25s;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .btn-export:hover {
+        background: rgba(0, 200, 100, 0.2);
+        border-color: rgba(0, 200, 100, 0.3);
+    }
+
+    /* ===== ТАБЛИЦА ===== */
+    .table-wrapper {
+        background: #131a24;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    thead {
+        background: #0b0e14;
+        border-bottom: 1px solid #1a2430;
+    }
+
+    th {
+        text-align: left;
+        padding: 14px 20px;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #6a7f9e;
+        white-space: nowrap;
+        border-bottom: 1px solid #1a2430;
+    }
+
+    td {
+        padding: 14px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        vertical-align: middle;
+        color: #d0dcec;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tr:hover td {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* цветовая полоса слева */
+    .row-ok td {
+        border-left: 3px solid #00d489;
+    }
+
+    .row-error td {
+        border-left: 3px solid #ff6b6b;
+    }
+
+    .row-duplicate td {
+        border-left: 3px solid #f0a030;
+    }
+
+    /* ===== БЭЙДЖИ СТАТУСОВ ===== */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 14px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .badge-ok {
+        background: rgba(0, 200, 100, 0.15);
+        color: #00d489;
+    }
+
+    .badge-error {
+        background: rgba(255, 70, 70, 0.15);
+        color: #ff6b6b;
+    }
+
+    .badge-duplicate {
+        background: rgba(240, 160, 48, 0.15);
+        color: #f0a030;
+    }
+
+    .badge .dot-badge {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .badge-ok .dot-badge { background: #00d489; }
+    .badge-error .dot-badge { background: #ff6b6b; }
+    .badge-duplicate .dot-badge { background: #f0a030; }
+
+    /* ===== НОМЕР ПОЕЗДА ===== */
+    .train-number {
+        font-weight: 700;
+        font-size: 16px;
+        color: #ffffff;
+        letter-spacing: 0.3px;
+    }
+
+    .train-unknown {
+        color: #6a7f9e;
+        font-style: italic;
+    }
+
+    /* ===== КОД МЕТКИ ===== */
+    .tag-code {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 13px;
+        color: #8ab4f8;
+        background: rgba(0, 170, 255, 0.06);
+        padding: 2px 10px;
+        border-radius: 6px;
+        display: inline-block;
+        letter-spacing: 0.2px;
+    }
+
+    .tag-unknown {
+        color: #4a5a6e;
+        font-style: italic;
+    }
+
+    .time {
+        font-weight: 500;
+        color: #b0c8e8;
+        white-space: nowrap;
+    }
+
+    .station-name {
+        color: #b0c8e8;
+    }
+
+    /* ===== СЧЁТЧИК ===== */
+    .counter {
+        font-size: 13px;
+        color: #6a7f9e;
+        padding: 14px 20px 16px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .counter span {
+        color: #b0c8e8;
+        font-weight: 600;
+    }
+
+    /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
+    .empty-state {
+        text-align: center;
+        padding: 48px 20px;
+        color: #4a5a6e;
+    }
+
+    .empty-state .icon {
+        font-size: 48px;
+        margin-bottom: 12px;
+        opacity: 0.5;
+    }
+
+    .empty-state h3 {
+        font-weight: 500;
+        color: #6a7f9e;
+    }
+
+    /* ===== АНИМАЦИЯ ===== */
+    @keyframes fadeInRow {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    tbody tr {
+        animation: fadeInRow 0.3s ease-out;
+    }
 
     
-    <div id="events-table">
-        <table>
-             <thead>
-        <tr>
-            <th>Время</th>
-            <th>Номер поезда</th>
-            <th>Код метки</th>
-            <th>Станция</th>
-            <th>Статус</th>
-        </tr>
-    </thead>
-    <tbody id="events-body">
-        {% for event in events %}
-        <tr class="{% if event.status == 'OK' %}ok{% else %}error{% endif %}">
-            <td>{{ event.occurred_at|date:"H:i:s" }}</td>
-            <td>
-                {% if event.train %}
-                    <span class="train-number">{{ event.train.route_number }}</span>
-                {% else %}
-                    <span class="error-message">Неизвестный поезд</span>
-                {% endif %}
-            </td>
-            <td>
-                {% if event.rfid_tag %}
-                    <span>{{ event.rfid_tag.tag_uid }}</span>
-                {% else %}
-                    <span class="error-message">неизвестно</span>
-                {% endif %}
-            </td>
-            <td>{{ event.station.name }}</td>
-            <td>
-                <span class="status-badge {% if event.status == 'OK' %}status-ok{% else %}status-error{% endif %}">
-                    {{ event.get_status_display }}
-                </span>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-        </table>
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ШАПКА -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo-icon">🚇</div>
+            <div>
+                <h1>МетроСкан</h1>
+                <div class="header-sub">Автоматизированная система контроля прибытия поездов</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="user-badge">
+                <span class="dot"></span>
+                {{ request.user.username }}
+            </div>
+            <a href="/logout/" class="btn-logout">Выйти</a>
+        </div>
     </div>
-    <div class="refresh-info">Обновляется каждые 10 секунд</div>
 
-    <script>
-        function updateEvents() {
-            fetch('/')
-                .then(response => response.text())
-                .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const newBody = doc.querySelector('#events-body');
-                    if (newBody) {
-                        document.querySelector('#events-body').innerHTML = newBody.innerHTML;
-                    }
-                })
-                .catch(error => console.error('Ошибка обновления:', error));
-        }
+    <!-- ПАНЕЛЬ ФИЛЬТРОВ -->
+    <div class="filter-panel">
+        <form method="get" class="filter-form">
+            <div class="filter-group">
+                <label>Станция</label>
+                <select name="station">
+                    <option value="all" {% if selected_station == 'all' %}selected{% endif %}>Все станции</option>
+                    {% for station in stations %}
+                        <option value="{{ station.station_id }}" {% if selected_station == station.station_id|stringformat:"s" %}selected{% endif %}>
+                            {{ station.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        // Обновляем каждые 5 секунд
-        setInterval(updateEvents, 10000);
-    </script>
+            <div class="filter-group">
+                <label>Номер поезда</label>
+                <input type="text" name="train_number" value="{{ train_number }}" placeholder="Например: 27026">
+            </div>
+
+            <div class="filter-group">
+                <label>Код метки</label>
+                <input type="text" name="tag_uid" value="{{ tag_uid }}" placeholder="Например: RFID_001">
+            </div>
+
+            <div class="filter-group">
+                <label>Статус</label>
+                <select name="status">
+                    <option value="all" {% if selected_status == 'all' %}selected{% endif %}>Все статусы</option>
+                    <option value="OK" {% if selected_status == 'OK' %}selected{% endif %}>Штатное прибытие</option>
+                    <option value="ERROR" {% if selected_status == 'ERROR' %}selected{% endif %}>Ошибка идентификации</option>
+                    <option value="DUPLICATE" {% if selected_status == 'DUPLICATE' %}selected{% endif %}>Дубликат</option>
+                </select>
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="btn-primary">🔍 Применить</button>
+                <a href="/" class="btn-secondary">Сбросить</a>
+                <a href="/export/csv/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" class="btn-export">
+                    📥 CSV
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- ТАБЛИЦА -->
+    <div class="table-wrapper">
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Время</th>
+                        <th>Номер поезда</th>
+                        <th>Код метки</th>
+                        <th>Станция</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr class="row-{% if event.status == 'OK' %}ok{% elif event.status == 'ERROR' %}error{% else %}duplicate{% endif %}">
+                        <td class="time">{{ event.occurred_at|date:"H:i:s" }}</td>
+                        <td>
+                            {% if event.train %}
+                                <span class="train-number">{{ event.train.route_number }}</span>
+                            {% else %}
+                                <span class="train-unknown">Неизвестный поезд</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if event.rfid_tag %}
+                                <span class="tag-code">{{ event.rfid_tag.tag_uid }}</span>
+                            {% else %}
+                                <span class="tag-unknown">неизвестно</span>
+                            {% endif %}
+                        </td>
+                        <td class="station-name">{{ event.station.name }}</td>
+                        <td>
+                            <span class="badge badge-{% if event.status == 'OK' %}ok{% elif event.status == 'ERROR' %}error{% else %}duplicate{% endif %}">
+                                <span class="dot-badge"></span>
+                                {{ event.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <div class="icon">📭</div>
+                                <h3>Нет данных для отображения</h3>
+                                <p style="color: #4a5a6e; margin-top: 6px;">Дождитесь прибытия поезда или измените фильтры</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="counter">
+            Показано <span>{{ events|length }}</span> событий
+        </div>
+    </div>
+
+</div>
+
+<!-- АВТООБНОВЛЕНИЕ -->
+<script>
+    function updateEvents() {
+        const currentUrl = window.location.href;
+        const url = new URL(currentUrl);
+        url.searchParams.set('_', Date.now());
+
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newBody = doc.querySelector('tbody');
+            const newCounter = doc.querySelector('.counter');
+            if (newBody) {
+                document.querySelector('tbody').innerHTML = newBody.innerHTML;
+            }
+            if (newCounter) {
+                document.querySelector('.counter').innerHTML = newCounter.innerHTML;
+            }
+        })
+        .catch(error => console.error('Ошибка обновления:', error));
+    }
+
+    setInterval(updateEvents, 5000);
+</script>
+
 </body>
 </html>
