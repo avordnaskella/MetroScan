@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>МетроСкан — АРМ диспетчера</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- ШАПКА <link rel="stylesheet" href="{% static 'css/style.css' %}">-->
+   
      <style>
-    /* ===== ГЛОБАЛЬНЫЕ ===== */
-    * {
+   
+   *  {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -17,23 +17,24 @@
 
     body {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: #0b0e14;
-        color: #e8edf5;
+        background: #12161e; 
+        color: #f0f4fc;
         min-height: 100vh;
-        padding: 24px;
+        padding: 28px;
+        font-size: 16px; 
     }
 
     .container {
-        max-width: 1400px;
+        max-width: 1500px;
         margin: 0 auto;
     }
 
-    /* ===== ШАПКА ===== */
+    
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 28px;
+        margin-bottom: 32px;
         flex-wrap: wrap;
         gap: 16px;
     }
@@ -41,25 +42,24 @@
     .header-left {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 20px;
     }
 
     .logo-icon {
-        font-size: 32px;
+        font-size: 40px;
         background: linear-gradient(135deg, #00d4ff, #0070e0);
-        width: 52px;
-        height: 52px;
-        border-radius: 14px;
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 20px rgba(0, 180, 255, 0.3);
-        flex-shrink: 0;
+        box-shadow: 0 4px 24px rgba(0, 180, 255, 0.4);
     }
 
     .header h1 {
-        font-size: 26px;
-        font-weight: 700;
+        font-size: 32px;
+        font-weight: 800;
         letter-spacing: -0.5px;
         background: linear-gradient(135deg, #ffffff 60%, #6ab7ff);
         -webkit-background-clip: text;
@@ -68,155 +68,158 @@
     }
 
     .header-sub {
-        font-size: 14px;
-        color: #8899b4;
+        font-size: 16px;
+        color: #99aec9;
         font-weight: 400;
-        margin-top: 2px;
+        margin-top: 4px;
     }
 
     .header-right {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 24px;
     }
 
     .user-badge {
-        background: rgba(255, 255, 255, 0.06);
-        padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 10px 22px;
         border-radius: 30px;
-        font-size: 14px;
-        color: #b0c8e8;
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 16px;
+        color: #c0d8f0;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
     }
 
     .user-badge .dot {
-        width: 8px;
-        height: 8px;
-        background: #00d4ff;
+        width: 10px;
+        height: 10px;
+        background: #00ff88;
         border-radius: 50%;
         display: inline-block;
         animation: pulse-dot 2s infinite;
+        box-shadow: 0 0 12px #00ff88;
     }
 
     @keyframes pulse-dot {
         0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.5; transform: scale(0.8); }
+        50% { opacity: 0.6; transform: scale(0.8); }
     }
 
     .btn-logout {
-        background: rgba(255, 70, 70, 0.12);
-        color: #ff6b6b;
-        border: 1px solid rgba(255, 70, 70, 0.15);
-        padding: 8px 20px;
+        background: rgba(255, 80, 80, 0.15);
+        color: #ff7a7a;
+        border: 1px solid rgba(255, 80, 80, 0.25);
+        padding: 10px 24px;
         border-radius: 30px;
         text-decoration: none;
-        font-size: 13px;
-        font-weight: 500;
+        font-size: 15px;
+        font-weight: 600;
         transition: all 0.2s;
     }
 
     .btn-logout:hover {
-        background: rgba(255, 70, 70, 0.2);
-        border-color: rgba(255, 70, 70, 0.3);
+        background: rgba(255, 80, 80, 0.25);
+        border-color: rgba(255, 80, 80, 0.4);
     }
 
-    /* ===== ПАНЕЛЬ ФИЛЬТРОВ ===== */
     .filter-panel {
-        background: #131a24;
-        border-radius: 16px;
-        padding: 20px 24px;
-        margin-bottom: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.04);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        background: #1a2330;
+        border-radius: 18px;
+        padding: 24px 28px;
+        margin-bottom: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
     }
 
     .filter-form {
         display: flex;
         flex-wrap: wrap;
-        gap: 16px 20px;
+        gap: 18px 24px;
         align-items: flex-end;
     }
 
     .filter-group {
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        flex: 1 1 150px;
-        min-width: 130px;
+        gap: 6px;
+        flex: 1 1 160px;
+        min-width: 140px;
     }
 
     .filter-group label {
-        font-size: 11px;
+        font-size: 13px;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        color: #6a7f9e;
-        font-weight: 600;
+        color: #8aa3c9;
+        font-weight: 700;
     }
 
     .filter-group input,
     .filter-group select {
-        background: #0b0e14;
-        border: 1px solid #1e2a36;
-        color: #e8edf5;
-        padding: 8px 14px;
-        border-radius: 10px;
-        font-size: 14px;
+        background: #0f141e;
+        border: 1px solid #2a3a50;
+        color: #f0f4fc;
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 16px;
         font-family: 'Inter', sans-serif;
         width: 100%;
-        transition: border 0.2s;
+        transition: border 0.2s, box-shadow 0.2s;
         outline: none;
     }
 
     .filter-group input:focus,
     .filter-group select:focus {
         border-color: #00aaff;
-        box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.15);
+        box-shadow: 0 0 0 4px rgba(0, 170, 255, 0.2);
     }
 
     .filter-group input::placeholder {
-        color: #3a4a5e;
+        color: #4a5e7a;
     }
 
-    .filter-actions {display: flex;
-        gap: 10px;
+    .filter-actions {
+        display: flex;
+        gap: 12px;
         align-items: center;
         padding-bottom: 2px;
         flex-wrap: wrap;
         flex: 1 1 auto;
     }
 
-    /* ===== КНОПКИ ===== */
+   
+
+
     .btn-primary {
-        background: linear-gradient(135deg, #0070e0, #00aaff);
+        background: linear-gradient(135deg, #429ae6, #064454);
         color: white;
         border: none;
-        padding: 8px 24px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 14px;
+        padding: 10px 30px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 16px;
         cursor: pointer;
         transition: all 0.25s;
         font-family: 'Inter', sans-serif;
-        box-shadow: 0 4px 16px rgba(0, 120, 255, 0.25);
+        box-shadow: 0 4px 20px rgba(0, 136, 255, 0.35);
         white-space: nowrap;
     }
 
     .btn-primary:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 24px rgba(0, 120, 255, 0.35);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 136, 255, 0.5);
     }
 
     .btn-secondary {
-        background: rgba(255, 255, 255, 0.05);
-        color: #b0c8e8;
-        border: 1px solid #1e2a36;
-        padding: 8px 20px;
-        border-radius: 10px;
-        font-weight: 500;
-        font-size: 14px;
+        background: rgba(198, 100, 190, 0.968);
+        color: #c0d8f0;
+        border: 1px solid #2a3a50;
+        padding: 10px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 16px;
         cursor: pointer;
         transition: all 0.2s;
         text-decoration: none;
@@ -225,39 +228,40 @@
     }
 
     .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.14);
     }
 
     .btn-export {
-        background: rgba(0, 200, 100, 0.12);
-        color: #00d489;
-        border: 1px solid rgba(0, 200, 100, 0.15);
-        padding: 8px 22px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 14px;
+        background: linear-gradient(135deg, #9c52b3, #27033d);
+        color: white;
+        border: 1px solid rgba(0, 220, 100, 0.25);
+        padding: 10px 26px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 16px;
         cursor: pointer;
         transition: all 0.25s;
         text-decoration: none;
         font-family: 'Inter', sans-serif;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         white-space: nowrap;
     }
 
     .btn-export:hover {
-        background: rgba(0, 200, 100, 0.2);
-        border-color: rgba(0, 200, 100, 0.3);
+        
+        box-shadow: 0 8px 32px rgba(193, 95, 210, 0.5);
+        transform: translateY(-2px);
     }
 
-    /* ===== ТАБЛИЦА ===== */
+   
     .table-wrapper {
-        background: #131a24;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: #1a2330;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
         overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
     }
 
     .table-scroll {
@@ -267,31 +271,32 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     thead {
-        background: #0b0e14;
-        border-bottom: 1px solid #1a2430;
+        background: #0f141e;
+        border-bottom: 2px solid #2a3a50;
     }
 
     th {
         text-align: left;
-        padding: 14px 20px;
-        font-weight: 600;
-        font-size: 12px;
+        padding: 16px 22px;
+        font-weight: 700;
+        font-size: 14px;
         text-transform: uppercase;
-        letter-spacing: 0.6px;
-        color: #6a7f9e;
+        letter-spacing: 0.8px;
+        color: #8aa3c9;
         white-space: nowrap;
-        border-bottom: 1px solid #1a2430;
+        border-bottom: 2px solid #2a3a50;
     }
 
     td {
-        padding: 14px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 16px 22px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         vertical-align: middle;
-        color: #d0dcec;
+        color: #dce6f5;
+        font-size: 16px;
     }
 
     tr:last-child td {
@@ -299,142 +304,154 @@
     }
 
     tr:hover td {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.04);
     }
 
-    /* цветовая полоса слева */
     .row-ok td {
-        border-left: 3px solid #00d489;
+        border-left: 5px solid #00ff88;
     }
 
     .row-error td {
-        border-left: 3px solid #ff6b6b;
+        border-left: 5px solid #ff5555;
     }
 
     .row-duplicate td {
-        border-left: 3px solid #f0a030;
+        border-left: 5px solid #ffaa33;
     }
 
-    /* ===== БЭЙДЖИ СТАТУСОВ ===== */
     .badge {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 4px 14px;
+        gap: 8px;
+        padding: 6px 18px;
         border-radius: 30px;
-        font-size: 12px;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .badge-ok {
-        background: rgba(0, 200, 100, 0.15);
-        color: #00d489;
-    }
-
-    .badge-error {
-        background: rgba(255, 70, 70, 0.15);
-        color: #ff6b6b;
-    }
-
-    .badge-duplicate {
-        background: rgba(240, 160, 48, 0.15);
-        color: #f0a030;
-    }
-
-    .badge .dot-badge {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    .badge-ok .dot-badge { background: #00d489; }
-    .badge-error .dot-badge { background: #ff6b6b; }
-    .badge-duplicate .dot-badge { background: #f0a030; }
-
-    /* ===== НОМЕР ПОЕЗДА ===== */
-    .train-number {
+        font-size: 14px;
         font-weight: 700;
-        font-size: 16px;
-        color: #ffffff;
+        white-space: nowrap;
         letter-spacing: 0.3px;
     }
 
-    .train-unknown {
-        color: #6a7f9e;
-        font-style: italic;
+    .badge-ok {
+        background: rgba(0, 255, 136, 0.18);
+        color: #00ff88;
+        border: 1px solid rgba(0, 255, 136, 0.2);
     }
 
-    /* ===== КОД МЕТКИ ===== */
+    .badge-error {
+        background: rgba(255, 85, 85, 0.18);
+        color: #ff5555;
+        border: 1px solid rgba(255, 85, 85, 0.2);
+    }
+
+    .badge-duplicate {
+        background: rgba(255, 170, 51, 0.18);
+        color: #ffaa33;
+        border: 1px solid rgba(255, 170, 51, 0.2);
+    }
+
+    .badge .dot-badge {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 8px currentColor;
+    }
+
+    .badge-ok .dot-badge { background: #00ff88; }
+    .badge-error .dot-badge { background: #ff5555; }
+    .badge-duplicate .dot-badge { background: #ffaa33; }
+
+   
+    .train-number {
+        font-weight: 800;
+        font-size: 20px;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        text-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
+    }
+
+    .train-unknown {
+        color: #e30f0f;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+    
     .tag-code {
         font-family: 'SF Mono', 'Fira Code', monospace;
-        font-size: 13px;
-        color: #8ab4f8;
-        background: rgba(0, 170, 255, 0.06);
-        padding: 2px 10px;
-        border-radius: 6px;
+        font-size: 15px;
+        color: #80d0ff;
+        background: rgba(0, 170, 255, 0.08);
+        padding: 4px 14px;
+        border-radius: 8px;
         display: inline-block;
-        letter-spacing: 0.2px;
+        letter-spacing: 0.3px;
+        border: 1px solid rgba(0, 170, 255, 0.1);
     }
 
     .tag-unknown {
-        color: #4a5a6e;
+        color: #e30f0f;
         font-style: italic;
+        font-size: 15px;
     }
 
     .time {
-        font-weight: 500;
-        color: #b0c8e8;
+        font-weight: 600;
+        color: #b8d0e8;
         white-space: nowrap;
+        font-size: 16px;
     }
 
     .station-name {
-        color: #b0c8e8;
+        color: #b8d0e8;
+        font-weight: 500;
+        font-size: 16px;
     }
 
-    /* ===== СЧЁТЧИК ===== */
+   
     .counter {
-        font-size: 13px;
-        color: #6a7f9e;
-        padding: 14px 20px 16px 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        font-size: 15px;
+        color: #7a8fa8;
+        padding: 16px 22px 18px 22px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .counter span {
-        color: #b0c8e8;
-        font-weight: 600;
+        color: #dce6f5;
+        font-weight: 700;
     }
 
-    /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
+   
     .empty-state {
         text-align: center;
-        padding: 48px 20px;
-        color: #4a5a6e;
+        padding: 56px 20px;
+        color: #5a6f8a;
     }
 
     .empty-state .icon {
-        font-size: 48px;
-        margin-bottom: 12px;
-        opacity: 0.5;
+        font-size: 56px;
+        margin-bottom: 16px;
+        opacity: 0.6;
     }
 
     .empty-state h3 {
-        font-weight: 500;
-        color: #6a7f9e;
+        font-weight: 600;
+        color: #8aa3c9;
+        font-size: 20px;
     }
 
-    /* ===== АНИМАЦИЯ ===== */
+    
     @keyframes fadeInRow {
-        from { opacity: 0; transform: translateY(-8px); }
+        from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
     tbody tr {
-        animation: fadeInRow 0.3s ease-out;
+        animation: fadeInRow 0.35s ease-out;
     }
 
-    
+   
 </style>
 </head>
 <body>
@@ -444,10 +461,10 @@
     <!-- ШАПКА -->
     <div class="header">
         <div class="header-left">
-            <div class="logo-icon">🚇</div>
+            
             <div>
                 <h1>МетроСкан</h1>
-                <div class="header-sub">Автоматизированная система контроля прибытия поездов</div>
+                <div class="header-sub">Система сичтывания номера поезда</div>
             </div>
         </div>
         <div class="header-right">
@@ -495,10 +512,10 @@
             </div>
 
             <div class="filter-actions">
-                <button type="submit" class="btn-primary">🔍 Применить</button>
+                <button type="submit" class="btn-primary">Применить</button>
                 <a href="/" class="btn-secondary">Сбросить</a>
                 <a href="/export/csv/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" class="btn-export">
-                    📥 CSV
+                    Скачать
                 </a>
             </div>
         </form>
@@ -532,7 +549,7 @@
                             {% if event.rfid_tag %}
                                 <span class="tag-code">{{ event.rfid_tag.tag_uid }}</span>
                             {% else %}
-                                <span class="tag-unknown">неизвестно</span>
+                                <span class="tag-unknown">Неизвестно</span>
                             {% endif %}
                         </td>
                         <td class="station-name">{{ event.station.name }}</td>

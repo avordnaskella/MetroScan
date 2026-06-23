@@ -117,8 +117,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    
-    r'C:\Users\aleksandrova.aa\Desktop\MetroScan\metro_s\metro_project\metro_project\static',
+    BASE_DIR / 'static',
 ]
 
 DEBUG = True
