@@ -12,14 +12,14 @@ class User(models.Model):
 
 class Train(models.Model):
     train_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Пользователь")
     route_number = models.IntegerField(verbose_name="Номер маршрута")
     numbers_wagons = models.IntegerField(verbose_name="Количество вагонов")
     departure_point = models.CharField(max_length=100, verbose_name="Пункт отправки")
     arrival_point = models.CharField(max_length=100, verbose_name="Пункт конечного прибытия")
 
     def __str__(self):
-        return f"Поезд {self.train_id} (маршрут {self.route_number})"
+     return f"Поезд {self.route_number} (маршрут {self.route_number})"
 
 
 class RFIDTag(models.Model):
