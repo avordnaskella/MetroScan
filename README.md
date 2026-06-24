@@ -78,7 +78,7 @@ python emulator.py
 
 ## 🔮 Архитектура системы
 
-```mermaid
+
 flowchart TD
     A[RFID-антенна<br>(в тоннеле)] -->|MQTT| B[MQTT-брокер]
     B -->|MQTT подписка| C[Серверное приложение<br>Django]
