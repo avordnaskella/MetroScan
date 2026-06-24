@@ -33,8 +33,8 @@
 
 ##  Запуск приложения
 ### 1. Клонирование репозитория
-git clone https://github.com/your-username/metro-scan.git
-cd metro-scan
+- git clone https://github.com/your-username/metro-scan.git
+- cd metro-scan
 
 ### 2. Создание виртуального окружения
 python -m venv venv
