@@ -40,17 +40,17 @@ cd metro-scan
 python -m venv venv
 
 ### 3. Активация
-· Windows (PowerShell): venv\Scripts\Activate.ps1  / venv\Scripts\activate
-· Windows (cmd): venv\Scripts\activate.bat
-· Linux/macOS: source venv/bin/activate   
+- Windows (PowerShell): venv\Scripts\Activate.ps1  / venv\Scripts\activate
+- Windows (cmd): venv\Scripts\activate.bat
+- Linux/macOS: source venv/bin/activate   
 
 ### 4. Установка зависимостей
 pip install django djangorestframework paho-mqtt requests
 
 ### 5. Миграции и создание суперпользователя
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
+- python manage.py makemigrations
+- python manage.py migrate
+- python manage.py createsuperuser
 
 ### 5. Запуск сервера
 python manage.py runserver
@@ -64,12 +64,14 @@ python emulator.py
 ---
 
 ## Архитектура
-```mermaid
-flowchart TD
-    A[RFID-антенна<br>(в тоннеле)] -->|MQTT| B[MQTT-брокер]
-    B -->|MQTT подписка| C[Серверное приложение<br>Django]
-    C -->|HTTPS / JSON| D[АРМ диспетчера<br>веб-интерфейс]
-    C -->|ORM / SQL| E[База данных]
+```markdown
+
+| Компонент | Протокол | Следующий компонент |
+|-----------|----------|---------------------|
+| RFID-антенна (в тоннеле) | → MQTT → | MQTT-брокер |
+| MQTT-брокер | → MQTT (подписка) → | Серверное приложение (Django) |
+| Серверное приложение (Django) | → HTTPS / JSON → | АРМ диспетчера (веб-интерфейс) |
+| Серверное приложение (Django) | → ORM / SQL → | База данных |
 
 
 ---
