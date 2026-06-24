@@ -33,7 +33,7 @@
 
 ##  Запуск приложения
 ### 1. Клонирование репозитория
-- git clone https://github.com/your-username/metro-scan.git
+- https://github.com/avordnaskella/MetroScan.git
 - cd metro-scan
 
 ### 2. Создание виртуального окружения
