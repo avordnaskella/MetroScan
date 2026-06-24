@@ -74,5 +74,5 @@ python emulator.py
 | Серверное приложение (Django) | → ORM / SQL → | База данных |
 
 
----
+
 
