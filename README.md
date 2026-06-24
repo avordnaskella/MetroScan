@@ -76,3 +76,11 @@ python emulator.py
 
 ---
 
+## 🔮 Архитектура системы
+
+```mermaid
+flowchart TD
+    A[RFID-антенна<br>(в тоннеле)] -->|MQTT| B[MQTT-брокер]
+    B -->|MQTT подписка| C[Серверное приложение<br>Django]
+    C -->|HTTPS / JSON| D[АРМ диспетчера<br>веб-интерфейс]
+    C -->|ORM / SQL| E[База данных]
